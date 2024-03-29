@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallax Layout</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'NEXONLv1Gothic';
+            font-weight: 300;
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Light.woff') format('woff');
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'NEXONLv1Gothic';
+            font-weight: 400;
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .parallax {
+            background: #000;
+            color: #fff;
+            font-family: 'NEXONLv1Gothic';
+            font-weight: 400;
+        }
+
+        /* Header */
+        #paraHeader {
+            padding: 20px;
+        }
+
+        #paraHeader h1 {
+            display: inline-block;
+            font-size: 20px;
+            border-bottom: 1px dashed #fff;
+            margin-bottom: 8px;
+        }
+
+        #paraCont {
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+            overflow: hidden;
+            /* background: #fff; */
+        }
+
+        /* Footer */
+        #paraFooter {
+            padding: 10vw 0;
+        }
+
+        #paraFooter h2 {
+            font-size: 8vw;
+            line-height: 1.2;
+            padding: 10vw -8vw 0 8vw;
+            text-transform: uppercase;
+            margin-bottom: 3vw;
+        }
+
+        #paraFooter h2 em {
+            display: block;
+            font-family: 'Loto';
+            font-weight: 100;
+            padding-left: 18vw;
+        }
+
+        #paraFooter .footerInfo {
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #000;
+            align-self: 15px 20px;
+            margin-bottom: 2px;
+        }
+
+        #paraFooter .footerInfo h3 {
+            padding: 0 10px;
+        }
+
+        #paraFooter .footerInfo li {
+            display: inline;
+            list-style: none;
+        }
+
+        #paraFooter .footerInfo li a {
+            text-decoration: none;
+            color: #fff;
+            border: 1px dashed #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            line-height: 2;
+            display: inline-block;
+        }
+
+        #paraFooter .footerInfo li .active a,
+        #paraFooter .footerInfo li .a:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* 홀수 오른쪽 정렬 보기 */
+        .content__item {
+            width: 1000px;
+            margin: 30vw 0;
+            /* background: rgba(255, 255, 255, 0.3); */
+            text-align: right;
+            position: relative;
+            padding-top: 10vw;
+        }
+
+        /* 짝수 왼쪽 정렬 보기 */
+        .content__item:nth-child(even) {
+            margin-left: auto;
+            text-align: left;
+        }
+
+        .content__item__num {
+            font-family: 'Lato';
+            font-size: 25vw;
+            opacity: 0.7;
+            position: absolute;
+            right: -5vw;
+            top: -10vw;
+            /* bottom: 0; */
+        }
+
+        .content__item:nth-child(even) .content__item__num {
+            right: auto;
+            left: -5vw;
+        }
+
+        .content__item__title {
+            padding-bottom: 10px;
+
+        }
+
+        .content__item__imgWrap {
+            width: 100%;
+            padding-bottom: 56%;
+            background: #000;
+            /* 기준점 */
+            position: relative;
+        }
+
+        .content__item__img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            /*  */
+            background-repeat: no-repeat;
+            background-size: cover;
+            /* 이미지 흑백 */
+            filter: saturate(0%);
+            /* 마우스 오버 - 컬러이미지 변경 */
+            transition: all 1s;
+        }
+
+        .content__item__img:hover {
+            filter: saturate(100%);
+        }
+
+        .content__item__desc {
+            font-size: 4vw;
+            line-height: 1.4;
+            /* 글자 정렬 */
+            word-break: keep-all;
+            margin-top: relative;
+            margin-top: 0;
+            z-index: -6vw;
+            margin-right: -3vw;
+            position: relative;
+            z-index: 100;
+        }
+
+        .content__item:nth-child(even) .content__item__desc {
+            margin-right: 0;
+            margin-left: -3vw;
+        }
+
+        /* 이미지 */
+        .content__item:nth-child(1) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/001.jpg?raw=true);
+        }
+
+        .content__item:nth-child(2) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/002.jpg?raw=true);
+        }
+
+        .content__item:nth-child(3) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/003.jpg?raw=true);
+        }
+
+        .content__item:nth-child(4) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/004.jpg?raw=true);
+        }
+
+        .content__item:nth-child(5) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/005.jpg?raw=true);
+        }
+
+        .content__item:nth-child(6) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/006.jpg?raw=true);
+        }
+
+        .content__item:nth-child(7) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/007.jpg?raw=true);
+        }
+
+        .content__item:nth-child(8) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/008.jpg?raw=true);
+        }
+
+        .content__item:nth-child(9) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/009.jpg?raw=true);
+        }
+
+        .content__item:nth-child(10) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/010.jpg?raw=true);
+        }
+
+        .content__item:nth-child(11) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/011.jpg?raw=true);
+        }
+
+        .content__item:nth-child(12) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/012.jpg?raw=true);
+        }
+
+        .content__item:nth-child(13) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/013.jpg?raw=true);
+        }
+
+        .content__item:nth-child(14) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/014.jpg?raw=true);
+        }
+
+        .content__item:nth-child(15) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/015.jpg?raw=true);
+        }
+
+        .content__item:nth-child(16) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/016.jpg?raw=true);
+        }
+
+        .content__item:nth-child(17) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/017.jpg?raw=true);
+        }
+
+        .content__item:nth-child(18) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/018.jpg?raw=true);
+        }
+
+        .content__item:nth-child(19) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/019.jpg?raw=true);
+        }
+
+        .content__item:nth-child(20) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/020.jpg?raw=true);
+        }
+
+        .content__item:nth-child(21) .content__item__img {
+            background-image: url(https://github.com/lillaya-net/reactBlog/blob/main/images/021.jpg?raw=true);
+        }
+    </style>
+</head>
+
+<body class="parallax">
+    <header id="paraHeader">
+        <h1>Kim Hyunmi</h1>
+        <p>Project ppt</p>
+    </header>
+    <!-- // header -->
+
+    <main id="paraCont">
+        <section id="section1" class="content__item">
+            <span class="content__item__num">01</span>
+            <h2 class="content__item__title">Project1</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project1  -->
+
+        <section id="section2" class="content__item">
+            <span class="content__item__num">02</span>
+            <h2 class="content__item__title">Project2</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project2  -->
+
+        <section id="section3" class="content__item">
+            <span class="content__item__num">03</span>
+            <h2 class="content__item__title">Project3</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project3  -->
+
+        <section id="section4" class="content__item">
+            <span class="content__item__num">04</span>
+            <h2 class="content__item__title">Project4</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project4  -->
+
+        <section id="section5" class="content__item">
+            <span class="content__item__num">05</span>
+            <h2 class="content__item__title">Project5</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project5  -->
+
+        <section id="section6" class="content__item">
+            <span class="content__item__num">06</span>
+            <h2 class="content__item__title">Project6</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project6  -->
+
+        <section id="section7" class="content__item">
+            <span class="content__item__num">07</span>
+            <h2 class="content__item__title">Project7</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project7  -->
+
+        <section id="section8" class="content__item">
+            <span class="content__item__num">08</span>
+            <h2 class="content__item__title">Project8</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project8  -->
+
+        <section id="section9" class="content__item">
+            <span class="content__item__num">09</span>
+            <h2 class="content__item__title">Project9</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project9  -->
+
+        <section id="section9" class="content__item">
+            <span class="content__item__num">10</span>
+            <h2 class="content__item__title">Project10</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project10  -->
+
+        <section id="section9" class="content__item">
+            <span class="content__item__num">11</span>
+            <h2 class="content__item__title">Project11</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project11  -->
+
+        <section id="section9" class="content__item">
+            <span class="content__item__num">12</span>
+            <h2 class="content__item__title">Project12</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project12  -->
+
+        <section id="section9" class="content__item">
+            <span class="content__item__num">13</span>
+            <h2 class="content__item__title">Project13</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project13  -->
+
+        <section id="section9" class="content__item">
+            <span class="content__item__num">14</span>
+            <h2 class="content__item__title">Project14</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project14  -->
+
+        <section id="section9" class="content__item">
+            <span class="content__item__num">15</span>
+            <h2 class="content__item__title">Project15</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project15  -->
+
+        <section id="section9" class="content__item">
+            <span class="content__item__num">16</span>
+            <h2 class="content__item__title">Project16</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project16  -->
+
+        <section id="section9" class="content__item">
+            <span class="content__item__num">17</span>
+            <h2 class="content__item__title">Project17</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project17  -->
+
+        <section id="section9" class="content__item">
+            <span class="content__item__num">18</span>
+            <h2 class="content__item__title">Project18</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project18  -->
+
+        <section id="section9" class="content__item">
+            <span class="content__item__num">19</span>
+            <h2 class="content__item__title">Project19</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project19  -->
+
+        <section id="section9" class="content__item">
+            <span class="content__item__num">20</span>
+            <h2 class="content__item__title">Project20</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project20  -->
+
+        <section id="section9" class="content__item">
+            <span class="content__item__num">20</span>
+            <h2 class="content__item__title">Project20</h2>
+            <figure class="content__item__imgWrap">
+                <div class="content__item__img"></div>
+            </figure>
+            <p class="content__item__desc"></p>
+        </section>
+        <!--  // Project21  -->
+
+    </main>
+    <!-- // main -->
+
+    <footer id="paraFooter">
+        <h2>Portfolio <em> Kim Hyunmi</em></h2>
+        <div class="footerInfo">
+            <h3>jQuery</h3>
+            <ul>
+                <li class="active"><a href="parallaxEffect01-jquery.html">1</a></li>
+                <li><a href="parallaxEffect02-jquery.html">2</a></li>
+                <li><a href="parallaxEffect03-jquery.html">3</a></li>
+                <li><a href="parallaxEffect04-jquery.html">4</a></li>
+                <li><a href="parallaxEffect05-jquery.html">5</a></li>
+                <li><a href="parallaxEffect05-jquery.html">6</a></li>
+                <li><a href="parallaxEffect06-jquery.html">7</a></li>
+                <li><a href="parallaxEffect07-jquery.html">8</a></li>
+            </ul>
+        </div>
+
+        <div class="footerInfo">
+            <h3>JavaScript</h3>
+            <ul>
+                <li><a href="parallaxEffect02-javascript.html">1</a></li>
+                <li><a href="parallaxEffect03-javascript.html">2</a></li>
+                <li><a href="parallaxEffect04-javascript.html">3</a></li>
+                <li><a href="parallaxEffect05-javascript.html">4</a></li>
+                <li><a href="parallaxEffect06-javascript.html">5</a></li>
+                <li><a href="parallaxEffect01-javascript.html">6</a></li>
+                <li><a href="parallaxEffect07-javascript.html">7</a></li>
+                <li><a href="parallaxEffect08-javascript.html">8</a></li>
+            </ul>
+        </div>
+    </footer>
+    <!-- // footer -->
+
+</body>
+
+</html>
